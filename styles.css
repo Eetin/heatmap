@@ -1,0 +1,25 @@
+body {
+  background-color: #2a2a72; }
+
+svg {
+  margin-top: 50px;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 0 50px black; }
+
+.x-legend, .y-legend {
+  font-size: 1.2em; }
+
+text {
+  fill: #232528; }
+
+path, .tick {
+  font-family: 'Roboto';
+  font-size: 1.3em;
+  stroke: #232528; }
+  path line, .tick line {
+    stroke: #232528; }
+
+.tooltip {
+  pointer-events: none; }
+
+/*# sourceMappingURL=styles.css.map*/
