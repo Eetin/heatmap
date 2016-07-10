@@ -6,7 +6,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
 
 const plot = (data) => {
 
-  const margin = { top: 120, right: 40, bottom: 60, left: 60 }
+  const margin = { top: 120, right: 10, bottom: 60, left: 80 }
 
   const width = 1200 - margin.right - margin.left,
         height = 600 - margin.top - margin.bottom
@@ -37,11 +37,11 @@ const plot = (data) => {
     .range([0, height])
 
   const svg = d3.select('#chart').append('svg')
-    .attr('width', width)
-    .attr('height', height)
-    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')')
+    .attr('width', margin.left + width + margin.right)
+    .attr('height', margin.top + height + margin.bottom)
 
   const grid = svg.append('g').classed('grid', true)
+    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')')
     .selectAll('rect')
     .data(data).enter()
     .append('rect').classed('cell', true)
@@ -51,4 +51,11 @@ const plot = (data) => {
     .attr('width', xScale.bandwidth())
     .attr('height', yScale.bandwidth())
     .style('fill', d => colorScale(d.variance))
+
+  let vAxis = d3.axisLeft(yScale)
+    .tickFormat(d => months[d-1])
+  svg.append('g').classed('v-axis', true)
+    .attr('transform', 'translate(' + margin.left+ ', ' + margin.top + ')')
+    .call(vAxis)
+
 }
