@@ -1,10 +1,5 @@
-body {
-  background-color: #2a2a72; }
-
 svg {
-  margin-top: 50px;
-  background: rgba(255, 255, 255, 0.75);
-  box-shadow: 0 0 50px black; }
+  margin-top: 50px; }
 
 .x-legend, .y-legend {
   font-size: 1.2em; }

@@ -61,12 +61,46 @@
 	
 	var plot = function plot(data) {
 	
-	  var margin = { top: 120, right: 120, bottom: 60, left: 60 };
+	  var margin = { top: 120, right: 40, bottom: 60, left: 60 };
 	
-	  var width = 900 - margin.right - margin.left,
+	  var width = 1200 - margin.right - margin.left,
 	      height = 600 - margin.top - margin.bottom;
 	
 	  var middleX = (margin.left + width + margin.right) / 2;
+	
+	  var baseTemp = data.baseTemperature;
+	  data = data.monthlyVariance;
+	
+	  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	
+	  // Colors from http://colorbrewer2.org
+	  var colors = ["#5e4fa2", "#3288bd", "#66c2a5", "#abdda4", "#e6f598", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d53e4f", "#9e0142"];
+	  var colorScale = d3.scaleQuantize().domain(d3.extent(data, function (d) {
+	    return d.variance;
+	  })).range(colors);
+	
+	  console.log('min temp: ' + (baseTemp + d3.min(data, function (d) {
+	    return d.variance;
+	  })));
+	  console.log('max temp: ' + (baseTemp + d3.max(data, function (d) {
+	    return d.variance;
+	  })));
+	
+	  var xScale = d3.scaleBand().domain(d3.range(d3.min(data, function (d) {
+	    return d.year;
+	  }), d3.max(data, function (d) {
+	    return d.year;
+	  }) + 1)).range([0, width]);
+	
+	  var yScale = d3.scaleBand().domain(d3.range(1, 13)).range([0, height]);
+	
+	  var svg = d3.select('#chart').append('svg').attr('width', width).attr('height', height).attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+	
+	  var grid = svg.append('g').classed('grid', true).selectAll('rect').data(data).enter().append('rect').classed('cell', true).attr('transform', function (d) {
+	    return 'translate(' + xScale(d.year) + ', ' + yScale(d.month) + ')';
+	  }).attr('width', xScale.bandwidth()).attr('height', yScale.bandwidth()).style('fill', function (d) {
+	    return colorScale(d.variance);
+	  });
 	};
 
 /***/ },
