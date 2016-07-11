@@ -1,18 +1,19 @@
-svg {
+.app {
   margin-top: 50px; }
 
-.x-legend, .y-legend {
-  font-size: 1.2em; }
+svg {
+  background: white;
+  box-shadow: -1px 4px 10px #232528; }
 
-text {
-  fill: #232528; }
+.h-axis {
+  font-family: 'Exo 2';
+  font-size: 0.9em; }
 
-path, .tick {
-  font-family: 'Roboto';
-  font-size: 1.3em;
-  stroke: #232528; }
-  path line, .tick line {
-    stroke: #232528; }
+.v-axis {
+  font-family: 'Exo 2';
+  font-size: 1em; }
+  .v-axis path, .v-axis line {
+    stroke: none; }
 
 .tooltip {
   pointer-events: none; }

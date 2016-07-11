@@ -10,27 +10,34 @@ body {
 
 }
 
-svg {
+.app {
   margin-top: 50px;
-  //background: rgba(255, 255, 255, .75);
-  //background-color: #f0e68c;
-  //box-shadow: 0 0 50px black;
+}
+
+svg {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: -1px 4px 10px $color4;
 }
 
 .x-legend, .y-legend {
-  font-size: 1.2em;
+  //font-size: 1.2em;
 }
 
 text {
-  fill: $color4;
+  //fill: $color4;
 }
 
-path, .tick {
-  font-family: 'Roboto';
-  font-size: 1.3em;
-  stroke: $color4;
-  line {
-    stroke: $color4;
+.h-axis {
+  font-family: 'Exo 2';
+  font-size: 0.9em;
+}
+
+.v-axis {
+  font-family: 'Exo 2';
+  font-size: 1em;
+
+  path, line {
+    stroke: none;
   }
 }
 

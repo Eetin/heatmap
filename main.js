@@ -61,7 +61,7 @@
 	
 	var plot = function plot(data) {
 	
-	  var margin = { top: 120, right: 10, bottom: 60, left: 80 };
+	  var margin = { top: 120, right: 20, bottom: 60, left: 90 };
 	
 	  var width = 1200 - margin.right - margin.left,
 	      height = 600 - margin.top - margin.bottom;
@@ -94,13 +94,27 @@
 	
 	  var yScale = d3.scaleBand().domain(d3.range(1, 13)).range([0, height]);
 	
-	  var svg = d3.select('#chart').append('svg').attr('width', margin.left + width + margin.right).attr('height', margin.top + height + margin.bottom);
+	  var svg = d3.select('#chart').append('svg').classed('center-block', true).attr('width', margin.left + width + margin.right).attr('height', margin.top + height + margin.bottom);
 	
 	  var grid = svg.append('g').classed('grid', true).attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')').selectAll('rect').data(data).enter().append('rect').classed('cell', true).attr('transform', function (d) {
 	    return 'translate(' + xScale(d.year) + ', ' + yScale(d.month) + ')';
 	  }).attr('width', xScale.bandwidth()).attr('height', yScale.bandwidth()).style('fill', function (d) {
 	    return colorScale(d.variance);
 	  });
+	
+	  var hScale = d3.scaleLinear().domain(d3.extent(data, function (d) {
+	    return d.year;
+	  })).range([0, width]);
+	
+	  var tickValues = data.map(function (d) {
+	    return d.year;
+	  }).filter(function (d, i, arr) {
+	    return d % 10 === 0 && arr.indexOf(d) === i;
+	  });
+	  console.log(tickValues);
+	
+	  var hAxis = d3.axisBottom(hScale).tickValues(tickValues);
+	  svg.append('g').classed('h-axis', true).attr('transform', 'translate(' + margin.left + ', ' + (margin.top + height) + ')').call(hAxis);
 	
 	  var vAxis = d3.axisLeft(yScale).tickFormat(function (d) {
 	    return months[d - 1];

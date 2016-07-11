@@ -6,13 +6,13 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
 
 const plot = (data) => {
 
-  const margin = { top: 120, right: 10, bottom: 60, left: 80 }
+  const margin = { top: 120, right: 20, bottom: 60, left: 90 }
 
   const width = 1200 - margin.right - margin.left,
         height = 600 - margin.top - margin.bottom
 
   const middleX = (margin.left + width + margin.right) / 2
-
+  
   const baseTemp = data.baseTemperature
   data = data.monthlyVariance
 
@@ -36,7 +36,7 @@ const plot = (data) => {
     .domain(d3.range(1, 13))
     .range([0, height])
 
-  const svg = d3.select('#chart').append('svg')
+  const svg = d3.select('#chart').append('svg').classed('center-block', true)
     .attr('width', margin.left + width + margin.right)
     .attr('height', margin.top + height + margin.bottom)
 
@@ -51,6 +51,19 @@ const plot = (data) => {
     .attr('width', xScale.bandwidth())
     .attr('height', yScale.bandwidth())
     .style('fill', d => colorScale(d.variance))
+
+  let hScale = d3.scaleLinear()
+    .domain(d3.extent(data, d => d.year))
+    .range([0, width])
+
+  const tickValues = data.map(d => d.year).filter((d, i, arr) => d % 10 === 0 && arr.indexOf(d) === i)
+  console.log(tickValues)
+
+  let hAxis = d3.axisBottom(hScale)
+    .tickValues(tickValues)
+  svg.append('g').classed('h-axis', true)
+    .attr('transform', 'translate(' + margin.left + ', ' + (margin.top + height) + ')')
+    .call(hAxis)
 
   let vAxis = d3.axisLeft(yScale)
     .tickFormat(d => months[d-1])
