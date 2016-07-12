@@ -61,12 +61,16 @@
 	
 	var plot = function plot(data) {
 	
-	  var margin = { top: 120, right: 20, bottom: 60, left: 90 };
+	  var margin = { top: 120, right: 20, bottom: 100, left: 90 };
 	
 	  var width = 1200 - margin.right - margin.left,
 	      height = 600 - margin.top - margin.bottom;
 	
 	  var middleX = (margin.left + width + margin.right) / 2;
+	
+	  var legendWidth = 400,
+	      legendHeight = 20,
+	      legendOffset = 40;
 	
 	  var baseTemp = data.baseTemperature;
 	  data = data.monthlyVariance;
@@ -75,16 +79,18 @@
 	
 	  // Colors from http://colorbrewer2.org
 	  var colors = ["#5e4fa2", "#3288bd", "#66c2a5", "#abdda4", "#e6f598", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d53e4f", "#9e0142"];
-	  var colorScale = d3.scaleQuantize().domain(d3.extent(data, function (d) {
+	  var colorScale = d3.scaleQuantile().domain(d3.extent(data, function (d) {
 	    return d.variance;
 	  })).range(colors);
 	
-	  console.log('min temp: ' + (baseTemp + d3.min(data, function (d) {
+	  var legendScale = d3.scaleQuantile().domain(d3.extent(data, function (d) {
 	    return d.variance;
-	  })));
-	  console.log('max temp: ' + (baseTemp + d3.max(data, function (d) {
-	    return d.variance;
-	  })));
+	  })).range(d3.range(0, legendWidth, legendWidth / 11));
+	
+	  var legendTickScale = d3.scaleBand().domain(legendScale.range().map(function (d) {
+	    var quantiles = legendScale.invertExtent(d);
+	    return ((quantiles[0] + quantiles[1]) / 2 + baseTemp).toFixed(1);
+	  })).range([0, legendWidth]);
 	
 	  var xScale = d3.scaleBand().domain(d3.range(d3.min(data, function (d) {
 	    return d.year;
@@ -111,7 +117,6 @@
 	  }).filter(function (d, i, arr) {
 	    return d % 10 === 0 && arr.indexOf(d) === i;
 	  });
-	  console.log(tickValues);
 	
 	  var hAxis = d3.axisBottom(hScale).tickValues(tickValues);
 	  svg.append('g').classed('h-axis', true).attr('transform', 'translate(' + margin.left + ', ' + (margin.top + height) + ')').call(hAxis);
@@ -120,6 +125,15 @@
 	    return months[d - 1];
 	  });
 	  svg.append('g').classed('v-axis', true).attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')').call(vAxis);
+	
+	  var legend = svg.append('g').classed('legend', true).attr('transform', 'translate(' + margin.left + ', ' + (margin.top + height + legendOffset) + ')').selectAll('rect').data(data).enter().append('rect').classed('legend-cell', true).attr('width', legendWidth / 11).attr('height', legendHeight).style('fill', function (d) {
+	    return colorScale(d.variance);
+	  }).attr('transform', function (d) {
+	    return 'translate(' + (width - legendWidth + legendScale(d.variance)) + ', 0)';
+	  });
+	
+	  var legendAxis = d3.axisBottom(legendTickScale);
+	  svg.append('g').classed('legend-axis', true).attr('transform', 'translate(' + (margin.left + width - legendWidth) + ', ' + (margin.top + height + legendOffset + legendHeight) + ')').call(legendAxis);
 	};
 
 /***/ },

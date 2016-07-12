@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --port 8080 --host 192.168.1.122 --inline"
+    "start": "webpack-dev-server --port 8080 --host 192.168.1.121 --inline"
   },
   "author": "Dmitry Lebedev",
   "license": "ISC",

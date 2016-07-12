@@ -41,6 +41,12 @@ text {
   }
 }
 
+.legend-axis {
+  path,line {
+    stroke: none;
+  }
+}
+
 .tooltip {
   pointer-events: none;
 }

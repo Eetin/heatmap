@@ -15,6 +15,9 @@ svg {
   .v-axis path, .v-axis line {
     stroke: none; }
 
+.legend-axis path, .legend-axis line {
+  stroke: none; }
+
 .tooltip {
   pointer-events: none; }
 
