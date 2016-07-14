@@ -19,6 +19,13 @@ svg {
   stroke: none; }
 
 .tooltip {
-  pointer-events: none; }
+  pointer-events: none;
+  background-color: #232528; }
+  .tooltip .tooltip-rect {
+    fill: #232528; }
+  .tooltip .tooltip-text {
+    font-family: 'Exo 2';
+    font-size: 1.2em;
+    fill: white; }
 
 /*# sourceMappingURL=styles.css.map*/

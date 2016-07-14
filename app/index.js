@@ -6,7 +6,7 @@ d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/mas
 
 const plot = (data) => {
 
-  const margin = { top: 120, right: 20, bottom: 100, left: 90 }
+  const margin = { top: 120, right: 35, bottom: 100, left: 105 }
 
   const width = 1200 - margin.right - margin.left,
         height = 600 - margin.top - margin.bottom
@@ -16,6 +16,9 @@ const plot = (data) => {
   const legendWidth = 400,
         legendHeight = 20,
         legendOffset = 40
+
+  const tooltipWidth = 130,
+        tooltipHeight = 80
 
   const baseTemp = data.baseTemperature
   data = data.monthlyVariance
@@ -63,6 +66,20 @@ const plot = (data) => {
     .attr('width', xScale.bandwidth())
     .attr('height', yScale.bandwidth())
     .style('fill', d => colorScale(d.variance))
+    .on('mouseover', function(d) {
+      tooltipDate.text(() => months[d.month - 1] + " " + d.year)
+      tooltipTemperature.text(() => 'Temp: ' + (baseTemp + d.variance).toFixed(3) + '℃')
+      tooltipVariance.text(() => 'Variance: ' + d.variance.toFixed(3) + '℃')
+      let mousePosition = d3.mouse(svg.node())
+      tooltip
+        .attr('transform', 'translate(' + (mousePosition[0] - tooltipWidth + margin.right - 5) + ', ' + (mousePosition[1] - tooltipHeight - 5) + ')')
+        .transition()
+        .style('opacity', 1)
+    })
+    .on('mouseout', function(d) {
+      tooltip.transition()
+        .style('opacity', 0)
+    })
 
   const hScale = d3.scaleLinear()
     .domain(d3.extent(data, d => d.year))
@@ -97,5 +114,29 @@ const plot = (data) => {
     .attr('transform', 'translate(' + (margin.left + width - legendWidth) + ', '
       + (margin.top + height + legendOffset + legendHeight) + ')')
     .call(legendAxis)
+
+  const tooltip = svg.append('g').classed('tooltip', true)
+    .style('opacity', 0)
+
+  tooltip.append('rect').classed('tooltip-rect', true)
+    .attr('width', tooltipWidth)
+    .attr('height', tooltipHeight)
+    .attr('rx', 10)
+    .attr('ry', 10)
+
+  const tooltipDate = tooltip.append('text').classed('tooltip-text', true)
+    .attr('x', tooltipWidth / 2)
+    .attr('y', '1.5em')
+    .attr('text-anchor', 'middle')
+
+  const tooltipTemperature = tooltip.append('text').classed('tooltip-text', true)
+    .attr('x', tooltipWidth / 2)
+    .attr('y', '3em')
+    .attr('text-anchor', 'middle')
+
+  const tooltipVariance = tooltip.append('text').classed('tooltip-text', true)
+    .attr('x', tooltipWidth / 2)
+    .attr('y', '4.5em')
+    .attr('text-anchor', 'middle')
 
 }
