@@ -19,21 +19,16 @@ svg {
   box-shadow: -1px 4px 10px $color4;
 }
 
-.x-legend, .y-legend {
-  //font-size: 1.2em;
-}
-
 text {
-  //fill: $color4;
+  font-family: 'Exo 2';
+  fill: $color4;
 }
 
 .h-axis {
-  font-family: 'Exo 2';
   font-size: 0.9em;
 }
 
 .v-axis {
-  font-family: 'Exo 2';
   font-size: 1em;
 
   path, line {
@@ -56,7 +51,6 @@ text {
   }
 
   .tooltip-text {
-    font-family: 'Exo 2';
     font-size: 1.2em;
     fill: white;
   }

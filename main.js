@@ -149,6 +149,12 @@
 	    return 'translate(' + (width - legendWidth + legendScale(d.variance)) + ', 0)';
 	  });
 	
+	  var heading = svg.append('g').classed('heading', true).attr('transform', 'translate(' + (margin.left + width + margin.right) / 2 + ', 0)').attr('text-anchor', 'middle');
+	  heading.append('text').classed('h1 center-block', true).attr('transform', 'translate(0, 45)').text('Monthly Global Land-Surface Temperature');
+	  heading.append('text').classed('h2 center-block', true).attr('transform', 'translate(0, 75)').text('1753 - 2015');
+	  heading.append('text').classed('center-block', true).attr('transform', 'translate(0, 95)').text('Temperatures are in Celsius and reported as anomalies relative to the Jan 1951 - Dec 1980 average.');
+	  heading.append('text').classed('center-block', true).attr('transform', 'translate(0, 110)').text('Estimated Jan 1951-Dec 1980 absolute temperature: 8.66℃ +/- 0.07℃');
+	
 	  var legendAxis = d3.axisBottom(legendTickScale);
 	  svg.append('g').classed('legend-axis', true).attr('transform', 'translate(' + (margin.left + width - legendWidth) + ', ' + (margin.top + height + legendOffset + legendHeight) + ')').call(legendAxis);
 	

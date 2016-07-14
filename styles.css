@@ -5,12 +5,14 @@ svg {
   background: white;
   box-shadow: -1px 4px 10px #232528; }
 
-.h-axis {
+text {
   font-family: 'Exo 2';
+  fill: #232528; }
+
+.h-axis {
   font-size: 0.9em; }
 
 .v-axis {
-  font-family: 'Exo 2';
   font-size: 1em; }
   .v-axis path, .v-axis line {
     stroke: none; }
@@ -24,7 +26,6 @@ svg {
   .tooltip .tooltip-rect {
     fill: #232528; }
   .tooltip .tooltip-text {
-    font-family: 'Exo 2';
     font-size: 1.2em;
     fill: white; }
 
